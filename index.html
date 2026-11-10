@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cadastro Seguro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            display: none;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.4s ease-out;
+        }
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .btn-primary {
+            background-color: #16a34a; /* Verde */
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #15803d;
+            transform: translateY(-1px);
+        }
+
+        .accent-yellow {
+            color: #facc15; /* Amarelo */
+        }
+
+        .border-accent {
+            border-color: #facc15;
+        }
+
+        .input-field {
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Container Principal -->
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden relative">
+        
+        <!-- Barra de Progresso Superior -->
+        <div class="h-1.5 w-full bg-gray-100">
+            <div id="progress-bar" class="h-full bg-green-600 transition-all duration-500" style="width: 25%;"></div>
+        </div>
+
+        <div class="p-8">
+            
+            <!-- TELA 1: CADASTRO -->
+            <div id="screen-signup" class="screen active flex-col gap-6">
+                <div class="text-center mb-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
+                        <i data-lucide="user-plus" class="w-8 h-8"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Criar Conta</h1>
+                    <p class="text-gray-500 text-sm">Comece sua jornada conosco</p>
+                </div>
+
+                <form id="form-signup" class="flex flex-col gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                        <input type="text" id="signup-name" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Ex: João Silva">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                        <input type="email" id="signup-email" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="email@exemplo.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <input type="password" id="signup-pass" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary text-white font-semibold py-3 rounded-lg mt-2 flex items-center justify-center gap-2">
+                        Cadastrar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+                <p class="text-center text-sm text-gray-600">
+                    Já tem conta? <a href="#" onclick="navigateTo('screen-login')" class="text-green-600 font-semibold hover:underline">Entrar</a>
+                </p>
+            </div>
+
+            <!-- TELA 2: LOGIN -->
+            <div id="screen-login" class="screen flex-col gap-6">
+                <div class="text-center mb-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-4">
+                        <i data-lucide="lock" class="w-8 h-8"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Bem-vindo de volta</h1>
+                    <p class="text-gray-500 text-sm">Acesse sua conta segura</p>
+                </div>
+
+                <form id="form-login" class="flex flex-col gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">E-mail</label>
+                        <input type="email" id="login-email" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="email@exemplo.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                        <input type="password" id="login-pass" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary text-white font-semibold py-3 rounded-lg mt-2 flex items-center justify-center gap-2">
+                        Entrar <i data-lucide="log-in" class="w-4 h-4"></i>
+                    </button>
+                </form>
+                <p class="text-center text-sm text-gray-600">
+                    Não tem conta? <a href="#" onclick="navigateTo('screen-signup')" class="text-green-600 font-semibold hover:underline">Cadastre-se</a>
+                </p>
+            </div>
+
+            <!-- TELA 3: INFORMAÇÕES PESSOAIS -->
+            <div id="screen-profile" class="screen flex-col gap-6">
+                <div class="text-center mb-4">
+                    <div class="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full mb-4">
+                        <i data-lucide="clipboard-list" class="w-8 h-8"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Dados Pessoais</h1>
+                    <p class="text-gray-500 text-sm">Complete seu perfil para gerar seu código</p>
+                </div>
+
+                <form id="form-profile" class="flex flex-col gap-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">CPF</label>
+                            <input type="text" id="profile-cpf" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="000.000.000-00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                            <input type="tel" id="profile-tel" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="(00) 00000-0000">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Endereço</label>
+                        <input type="text" id="profile-address" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Rua, Número, Bairro">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Cidade/UF</label>
+                        <input type="text" id="profile-city" required class="input-field w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="São Paulo - SP">
+                    </div>
+                    <button type="submit" class="btn-primary text-white font-semibold py-3 rounded-lg mt-2 flex items-center justify-center gap-2">
+                        Salvar e Gerar Código <i data-lucide="save" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- TELA 4: RESULTADO FINAL -->
+            <div id="screen-result" class="screen flex-col gap-6 text-center">
+                <div class="mb-4">
+                    <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 text-green-600 rounded-full mb-4 animate-bounce">
+                        <i data-lucide="check-circle" class="w-10 h-10"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">Cadastro Concluído!</h1>
+                    <p class="text-gray-500 text-sm">Seu código de acesso único foi gerado com sucesso.</p>
+                </div>
+
+                <div class="bg-gray-50 border-2 border-dashed border-yellow-400 rounded-2xl p-8 my-4">
+                    <span class="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-2">Seu Código de Acesso</span>
+                    <div id="final-code" class="text-4xl font-mono font-black text-green-700 tracking-widest">
+                        XXXXXXX
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg text-left text-xs text-blue-700 flex gap-3">
+                    <i data-lucide="info" class="w-4 h-4 shrink-0"></i>
+                    <p>Este código é pessoal e intransferível. Guarde-o em local seguro para futuras validações no sistema.</p>
+                </div>
+
+                <button onclick="resetSystem()" class="text-gray-400 hover:text-gray-600 text-sm font-medium transition-colors">
+                    Sair do Sistema
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Inicializa ícones Lucide
+        lucide.createIcons();
+
+        // Estado da Aplicação
+        let userData = {
+            email: '',
+            password: '',
+            name: '',
+            cpf: '',
+            tel: '',
+            address: '',
+            city: ''
+        };
+
+        // Navegação entre telas
+        function navigateTo(screenId) {
+            const screens = document.querySelectorAll('.screen');
+            const progressBar = document.getElementById('progress-bar');
+            
+            screens.forEach(s => s.classList.remove('active'));
+            
+            const target = document.getElementById(screenId);
+            target.classList.add('active');
+
+            // Atualiza barra de progresso
+            const progressMap = {
+                'screen-signup': '25%',
+                'screen-login': '50%',
+                'screen-profile': '75%',
+                'screen-result': '100%'
+            };
+            progressBar.style.width = progressMap[screenId] || '0%';
+        }
+
+        // Gerador de Código Aleatório (7 dígitos: Letras e Números)
+        function generateRandomCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < 7; i++) {
+                result += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return result;
+        }
+
+        // Lógica de Cadastro
+        document.getElementById('form-signup').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Salva dados básicos no localStorage para simular banco de dados
+            const email = document.getElementById('signup-email').value;
+            const pass = document.getElementById('signup-pass').value;
+            const name = document.getElementById('signup-name').value;
+
+            localStorage.setItem('user_account', JSON.stringify({ email, pass, name }));
+            
+            alert('Conta criada com sucesso! Agora faça o login.');
+            navigateTo('screen-login');
+        });
+
+        // Lógica de Login
+        document.getElementById('form-login').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('login-email').value;
+            const passInput = document.getElementById('login-pass').value;
+            const storedUser = JSON.parse(localStorage.getItem('user_account'));
+
+            if (storedUser && storedUser.email === emailInput && storedUser.pass === passInput) {
+                userData.email = emailInput;
+                userData.name = storedUser.name;
+                navigateTo('screen-profile');
+            } else {
+                alert('E-mail ou senha incorretos. Verifique seus dados.');
+            }
+        });
+
+        // Lógica de Perfil e Finalização
+        document.getElementById('form-profile').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Coleta dados finais
+            userData.cpf = document.getElementById('profile-cpf').value;
+            userData.tel = document.getElementById('profile-tel').value;
+            userData.address = document.getElementById('profile-address').value;
+            userData.city = document.getElementById('profile-city').value;
+
+            // Salva perfil completo
+            localStorage.setItem('user_profile', JSON.stringify(userData));
+
+            // Gera código
+            const code = generateRandomCode();
+            document.getElementById('final-code').innerText = code;
+            localStorage.setItem('user_access_code', code);
+
+            navigateTo('screen-result');
+        });
+
+        // Resetar sistema
+        function resetSystem() {
+            if(confirm('Deseja realmente sair? Todos os dados de sessão serão limpos.')) {
+                localStorage.clear();
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
